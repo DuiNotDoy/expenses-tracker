@@ -3,16 +3,9 @@ generator client {
 }
 
 datasource db {
-    provider     = "mysql"
-    url          = env("DATABASE_URL")
-    relationMode = "prisma"
-}
-
-model User {
-    id       String     @id @default(uuid())
-    email    String     @unique
-    name     String?
-    Spending Spending[]
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+    // relationMode = "prisma"
 }
 
 model Spending {
@@ -21,8 +14,7 @@ model Spending {
     item      String
     value     Decimal
     category  Category
-    owner     User     @relation(fields: [ownerId], references: [id])
-    ownerId   String
+    userId    String
 }
 
 enum Category {
@@ -34,5 +26,4 @@ enum Category {
     transportation
     insurance
     recreation
-
 }
