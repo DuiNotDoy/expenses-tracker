@@ -1,4 +1,3 @@
-import { useSession } from '@clerk/nextjs'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
@@ -13,18 +12,10 @@ type Spending = {
 
 export default function Spendings() {
     const [spendings, setSpendings] = useState<Spending[]>([])
-    const { session } = useSession()
 
     useEffect(() => {
         async function getSpendings() {
-            const response = await fetch('http://localhost:3000/api/db/spendings', {
-                method: 'POST',
-                credentials: 'same-origin',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ session })
-            })
+            const response = await fetch('http://localhost:3000/api/db/spendings')
             const spendings = await response.json()
             setSpendings(spendings)
         }

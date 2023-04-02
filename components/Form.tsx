@@ -14,21 +14,18 @@ export default function Form({ categories }: Props) {
     async function submit() {
         if (!item.current || !value.current || !category.current || !session) return
 
-        const data = {
-            item: item.current.value,
-            value: value.current.value,
-            category: category.current.value,
-            userId: session.user.id
-        }
-
-        console.log(data)
         const response = await fetch('http://localhost:3000/api/db/insert', {
             method: 'POST',
             credentials: 'same-origin',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify({
+                item: item.current.value,
+                value: value.current.value,
+                category: category.current.value,
+                userId: session.user.id
+            })
         })
         console.log(response.json())
     }

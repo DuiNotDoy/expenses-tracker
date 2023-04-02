@@ -30,7 +30,7 @@ function Header() {
     )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
     const res = await fetch('http://localhost:3000/api/db/category')
     const categories = await res.json()
 
