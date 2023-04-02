@@ -1,3 +1,4 @@
+import { useSession } from "@clerk/nextjs"
 import { useRef } from "react"
 
 type Props = {
@@ -8,21 +9,32 @@ export default function Form({ categories }: Props) {
     const item = useRef<HTMLInputElement>(null)
     const value = useRef<HTMLInputElement>(null)
     const category = useRef<HTMLSelectElement>(null)
+    const { session } = useSession()
 
-    function submit() {
-        if (item.current && value.current && category.current) {
-            const data = {
-                item: item.current.value,
-                value: value.current.value,
-                category: category.current.value,
-            }
+    async function submit() {
+        if (!item.current || !value.current || !category.current || !session) return
 
-            console.log(data)
+        const data = {
+            item: item.current.value,
+            value: value.current.value,
+            category: category.current.value,
+            userId: session.user.id
         }
+
+        console.log(data)
+        const response = await fetch('http://localhost:3000/api/db/insert', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        console.log(response.json())
     }
 
     return (
-    <div className='bg-slate-400 outline outline-1 max-w-md mx-auto rounded-md text-left p-2 my-2'>
+        <div className='bg-slate-400 outline outline-1 max-w-md mx-auto rounded-md text-left p-2 my-2'>
             <div className='my-2'>
                 <label htmlFor='item'>Item Name:</label>
                 <input ref={item} type='text' name='item' placeholder='Item name' />

@@ -12,7 +12,7 @@ model Spending {
     id        String   @id @default(uuid())
     createdAt DateTime @default(now())
     item      String
-    value     Decimal
+    value     Float
     category  Category
     userId    String
 }

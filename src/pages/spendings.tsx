@@ -1,28 +1,54 @@
+import { useSession } from '@clerk/nextjs'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+type Spending = {
+    id: string
+    createdAt: string
+    item: string
+    value: number
+    category: string
+    userId: string
+}
 
 export default function Spendings() {
-    const [message, setMessage] = useState<any[]>([]);
+    const [spendings, setSpendings] = useState<Spending[]>([])
+    const { session } = useSession()
+
+    useEffect(() => {
+        async function getSpendings() {
+            const response = await fetch('http://localhost:3000/api/db/spendings', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ session })
+            })
+            const spendings = await response.json()
+            setSpendings(spendings)
+        }
+        getSpendings()
+    }, [])
 
     return (
-        <div>
-            <h1>Spendings</h1>
-            <Link href={'/'}>Back to Home</Link>
-            <button onClick={async () => {
-                const response = await fetch('http://localhost:3000/api/')
-                const data = await response.json()
-                setMessage(curr => [...curr, data])
-            }} className='bg-red-300 p-1'>Click Me</button>
-            <div>
+        <div className='h-screen'>
+            <h1 className='text-center'>Spendings</h1>
+            <Link href={'/'} className='bg-red-300 p-1 rounded-md'>Back to Home</Link>
+            <div className='flex gap-4 justify-center bg-slate-400'>
                 {
-                    message.map((msg, idx) => (
-                        <div key={idx}>
-                            {msg.message}
-                        </div>
-                    ))
+                    spendings.length > 0 ?
+                        spendings.map(spending => (
+                            <div key={spending.id} className='bg-slate-200 p-2 rounded-md shadow-md'>
+                                <p>created: {new Date(spending.createdAt).toLocaleDateString()}</p>
+                                <p>item: {spending.item}</p>
+                                <p>value: {spending.value}</p>
+                                <p>category: {spending.category}</p>
+                            </div>
+                        ))
+                        : <div>no record</div>
                 }
             </div>
         </div>
     )
 }
-
