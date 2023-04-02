@@ -14,7 +14,7 @@ export default function Form({ categories }: Props) {
     async function submit() {
         if (!item.current || !value.current || !category.current || !session) return
 
-        const response = await fetch('http://localhost:3000/api/db/insert', {
+        const response = await fetch(`/api/db/insert`, {
             method: 'POST',
             credentials: 'same-origin',
             headers: {

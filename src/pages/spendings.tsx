@@ -15,7 +15,7 @@ export default function Spendings() {
 
     useEffect(() => {
         async function getSpendings() {
-            const response = await fetch('http://localhost:3000/api/db/spendings')
+            const response = await fetch(`/api/db/spendings`)
             const spendings = await response.json()
             setSpendings(spendings)
         }

@@ -31,7 +31,7 @@ function Header() {
 }
 
 export async function getServerSideProps() {
-    const res = await fetch('http://localhost:3000/api/db/category')
+    const res = await fetch(`${process.env.DOMAIN_NAME}/api/db/category`)
     const categories = await res.json()
 
     return {
