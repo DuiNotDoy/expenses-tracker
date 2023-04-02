@@ -1,20 +1,42 @@
 import { UserButton } from '@clerk/nextjs'
 import Link from 'next/link'
+import Form from '../../components/Form'
 
-// postgres://postgres:iScreamour_420@db.fooxulujdilkeftgxxlw.supabase.co:6543/postgres
+type Props = {
+    categories: string[]
+}
 
-export default function Home() {
+export default function Home({ categories }: Props) {
+
     return (
         <div className="">
-            <header className="p-2">
-                <div className="flex justify-end">
-                    <UserButton />
-                </div>
-            </header>
-            <main>
+            <Header />
+            <main className='bg-gray-300 text-center h-screen'>
                 <h1>Home</h1>
-                <Link href={'/spendings'}>See Spendings</Link>
+                <Link href={'/spendings'} className='bg-red-300 p-1 rounded-md'>See Spendings</Link>
+                <Form categories={categories} />
             </main>
         </div>
     )
+}
+
+function Header() {
+    return (
+        <header className="p-2">
+            <div className="flex justify-end">
+                <UserButton />
+            </div>
+        </header>
+    )
+}
+
+export async function getStaticProps() {
+    const res = await fetch('http://localhost:3000/api/db/category')
+    const categories = await res.json()
+
+    return {
+        props: {
+            categories
+        }
+    }
 }
