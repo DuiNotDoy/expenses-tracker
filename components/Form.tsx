@@ -1,15 +1,25 @@
 import { useSession } from "@clerk/nextjs"
-import { useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 
 type Props = {
     categories: string[]
 }
 
-export default function Form({ categories }: Props) {
+export default function Form() {
+    const [categories, setCategories] = useState<string[]>([])
     const item = useRef<HTMLInputElement>(null)
     const value = useRef<HTMLInputElement>(null)
     const category = useRef<HTMLSelectElement>(null)
     const { session } = useSession()
+
+    useEffect(() => {
+        const getCategories = async () => {
+            const res = await fetch(`/api/db/category`)
+            const parsed  = await res.json()
+            setCategories(parsed)
+        }
+        getCategories()
+    }, [])
 
     async function submit() {
         if (!item.current || !value.current || !category.current || !session) return
