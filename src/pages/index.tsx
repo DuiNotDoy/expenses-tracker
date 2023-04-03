@@ -1,6 +1,7 @@
 import { UserButton } from '@clerk/nextjs'
 import Link from 'next/link'
 import Form from '../../components/Form'
+import type { GetServerSideProps } from 'next'
 
 type Props = {
     categories: string[]
@@ -30,7 +31,7 @@ function Header() {
     )
 }
 
-export async function getServerSideProps(context) {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     const host = context.req.headers.referer
     const res = await fetch(`${host}/api/db/category`)
     const categories = await res.json()
