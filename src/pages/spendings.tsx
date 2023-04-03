@@ -45,7 +45,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         props: {}
     }
 
-    const res = await fetch('http://localhost:3000/api/db/spendings', {
+    const res = await fetch(`${process.env.DOMAIN_NAME}/api/db/spendings`, {
         credentials: 'include',
         headers: {
             Cookie: req.headers.cookie

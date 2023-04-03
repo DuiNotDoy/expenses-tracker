@@ -31,8 +31,8 @@ function Header() {
     )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    const res = await fetch('http://localhost:3000/api/db/category')
+export const getServerSideProps: GetServerSideProps = async () => {
+    const res = await fetch(`${process.env.DOMAIN_NAME}/api/db/category`)
     const categories = await res.json()
 
     return {
