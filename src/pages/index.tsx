@@ -33,6 +33,7 @@ function Header() {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const host = context.req.headers.referer
+    console.log({ host })
     const res = await fetch(`${host}/api/db/category`)
     const categories = await res.json()
 
