@@ -1,45 +1,12 @@
-import { UserButton } from '@clerk/nextjs'
-import Link from 'next/link'
-import Form from '../../components/Form'
-// import type { GetServerSideProps } from 'next'
-
-// type Props = {
-//     categories: string[]
-// }
+import Link from "next/link";
 
 export default function Home() {
 
     return (
-        <div className="">
-            <Header />
-            <main className='bg-gray-300 text-center h-screen'>
-                <h1>Home</h1>
-                <Link href={'/spendings'} className='bg-red-300 p-1 rounded-md'>See Spendings</Link>
-                <Form />
-            </main>
+        <div className="grid place-items-center">
+            <h1> Landing Page </h1>
+            <Link href={'/home'} className="bg-red-300 p-1 rounded-md">Get started</Link>
         </div>
     )
 }
 
-function Header() {
-    return (
-        <header className="p-2">
-            <div className="flex justify-end">
-                <UserButton />
-            </div>
-        </header>
-    )
-}
-
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-//     const host = context.req.headers.referer
-//     console.log({ host })
-//     const res = await fetch(`${host}/api/db/category`)
-//     const categories = await res.json()
-//
-//     return {
-//         props: {
-//             categories
-//         }
-//     }
-// }

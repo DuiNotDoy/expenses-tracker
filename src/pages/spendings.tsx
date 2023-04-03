@@ -25,7 +25,7 @@ export default function Spendings() {
     return (
         <div className='h-screen'>
             <h1 className='text-center'>Spendings</h1>
-            <Link href={'/'} className='bg-red-300 p-1 rounded-md'>Back to Home</Link>
+            <Link href={'/home'} className='bg-red-300 p-1 rounded-md'>Back to Home</Link>
             <div className='flex gap-4 justify-center bg-slate-400'>
                 {
                     spendings.length > 0 ?
