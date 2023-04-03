@@ -32,7 +32,7 @@ function Header() {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-    const res = await fetch(`${process.env.DOMAIN_NAME}/api/db/category`)
+    const res = await fetch(`${process.env.NEXT_PUBLIC_VERCEL_URL}/api/db/category`)
     const categories = await res.json()
 
     return {

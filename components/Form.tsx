@@ -12,7 +12,7 @@ export default function Form({ categories }: Props) {
     async function submit() {
         if (!item.current || !value.current || !category.current) return
 
-        const response = await fetch(`${process.env.DOMAIN_NAME}/api/db/insert`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_VERCEL_URL}/api/db/insert`, {
             method: 'POST',
             credentials: 'same-origin',
             headers: {

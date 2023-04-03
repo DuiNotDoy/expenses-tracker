@@ -45,7 +45,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         props: {}
     }
 
-    const res = await fetch(`${process.env.DOMAIN_NAME}/api/db/spendings`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_VERCEL_URL}/api/db/spendings`, {
         credentials: 'include',
         headers: {
             Cookie: req.headers.cookie
@@ -58,4 +58,34 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             spendings
         }
     }
+    // if (process.env.NODE_ENV === 'development') {
+    //     const res = await fetch(`${process.env.DOMAIN_NAME}/api/db/spendings`, {
+    //         credentials: 'include',
+    //         headers: {
+    //             Cookie: req.headers.cookie
+    //         }
+    //     })
+    //     const spendings = await res.json()
+    //
+    //     return {
+    //         props: {
+    //             spendings
+    //         }
+    //     }
+    // } else {
+    //     const res = await fetch(`${process.env.NEXT_PUBLIC_VERCEL_URL}/api/db/spendings`, {
+    //         credentials: 'include',
+    //         headers: {
+    //             Cookie: req.headers.cookie
+    //         }
+    //     })
+    //     const spendings = await res.json()
+    //
+    //     return {
+    //         props: {
+    //             spendings
+    //         }
+    //     }
+    // }
+
 }
