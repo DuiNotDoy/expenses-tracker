@@ -1,8 +1,13 @@
 import { UserButton } from '@clerk/nextjs'
 import Link from 'next/link'
 import Form from '../../components/Form'
+import type { GetServerSideProps } from 'next'
 
-export default function Home() {
+type Props = {
+    categories: string[]
+}
+
+export default function Home({ categories }: Props) {
 
     return (
         <div>
@@ -10,7 +15,7 @@ export default function Home() {
             <main className='bg-gray-300 text-center h-screen'>
                 <h1>Home</h1>
                 <Link href={'/spendings'} className='bg-red-300 p-1 rounded-md'>See Spendings</Link>
-                <Form />
+                <Form categories={categories} />
             </main>
         </div>
     )
@@ -26,3 +31,13 @@ function Header() {
     )
 }
 
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const res = await fetch('http://localhost:3000/api/db/category')
+    const categories = await res.json()
+
+    return {
+        props: {
+            categories
+        }
+    }
+}

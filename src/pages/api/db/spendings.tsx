@@ -15,6 +15,7 @@ type JWT = {
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const prisma = new PrismaClient()
     const cookies = req.cookies
+    console.log({ cookies })
 
     if (!cookies.__session) return res.status(401).json({ message: 'unauthorized' })
 

@@ -1,30 +1,18 @@
-import { useSession } from "@clerk/nextjs"
-import { useEffect, useRef, useState } from "react"
+import { useRef } from "react"
 
 type Props = {
     categories: string[]
 }
 
-export default function Form() {
-    const [categories, setCategories] = useState<string[]>([])
+export default function Form({ categories }: Props) {
     const item = useRef<HTMLInputElement>(null)
     const value = useRef<HTMLInputElement>(null)
     const category = useRef<HTMLSelectElement>(null)
-    const { session } = useSession()
-
-    useEffect(() => {
-        const getCategories = async () => {
-            const res = await fetch(`/api/db/category`)
-            const parsed  = await res.json()
-            setCategories(parsed)
-        }
-        getCategories()
-    }, [])
 
     async function submit() {
-        if (!item.current || !value.current || !category.current || !session) return
+        if (!item.current || !value.current || !category.current) return
 
-        const response = await fetch(`/api/db/insert`, {
+        const response = await fetch(`http://localhost:3000/api/db/insert`, {
             method: 'POST',
             credentials: 'same-origin',
             headers: {
@@ -34,7 +22,6 @@ export default function Form() {
                 item: item.current.value,
                 value: value.current.value,
                 category: category.current.value,
-                userId: session.user.id
             })
         })
         console.log(response.json())

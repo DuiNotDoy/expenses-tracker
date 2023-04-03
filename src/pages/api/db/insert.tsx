@@ -14,7 +14,7 @@ type JWT = {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const prisma = new PrismaClient()
-    const body = req.body
+    // const body = req.body
     const {item, value, category} = req.body
     const cookies = req.cookies
 

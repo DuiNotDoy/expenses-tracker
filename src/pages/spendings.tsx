@@ -1,5 +1,9 @@
+import type { GetServerSideProps } from 'next'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+
+type Props = {
+    spendings: Spending[]
+}
 
 type Spending = {
     id: string
@@ -7,20 +11,9 @@ type Spending = {
     item: string
     value: number
     category: string
-    userId: string
 }
 
-export default function Spendings() {
-    const [spendings, setSpendings] = useState<Spending[]>([])
-
-    useEffect(() => {
-        async function getSpendings() {
-            const response = await fetch(`/api/db/spendings`)
-            const spendings = await response.json()
-            setSpendings(spendings)
-        }
-        getSpendings()
-    }, [])
+export default function Spendings({ spendings }: Props) {
 
     return (
         <div className='h-screen'>
@@ -42,4 +35,27 @@ export default function Spendings() {
             </div>
         </div>
     )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const { req } = context
+
+    if (!req.headers.cookie) return {
+        redirect: { destination: '/home' },
+        props: {}
+    }
+
+    const res = await fetch('http://localhost:3000/api/db/spendings', {
+        credentials: 'include',
+        headers: {
+            Cookie: req.headers.cookie
+        }
+    })
+    const spendings = await res.json()
+
+    return {
+        props: {
+            spendings
+        }
+    }
 }
