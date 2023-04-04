@@ -10,12 +10,11 @@ export default function Form({ categories }: Props) {
     const value = useRef<HTMLInputElement>(null)
     const category = useRef<HTMLSelectElement>(null)
 
-    async function getBaseURL() {
+    function getBaseURL() {
         if (process.env.NODE_ENV == 'development') {
             return 'http://localhost:3000'
         } else {
             const url = `https://expenses-tracker-e1xik8myr-mulitt.vercel.app`
-            console.log('current url in env: ', url)
             // return `https://${process.env.VERCEL_URL}`
             return url
         }
@@ -29,7 +28,7 @@ export default function Form({ categories }: Props) {
 
         const response = await fetch(`${link}/api/db/insert`, {
             method: 'POST',
-            credentials: 'same-origin',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
