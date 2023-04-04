@@ -1,3 +1,4 @@
+import getEnvironment from "@/pages/api/env"
 import { useRef } from "react"
 
 type Props = {
@@ -9,12 +10,14 @@ export default function Form({ categories }: Props) {
     const value = useRef<HTMLInputElement>(null)
     const category = useRef<HTMLSelectElement>(null)
 
-    function getBaseURL() {
+    async function getBaseURL() {
         if (process.env.NODE_ENV == 'development') {
             return 'http://localhost:3000'
         } else {
-            console.log('current url in env: ', process.env.VERCEL_URL)
-            return `https://${process.env.VERCEL_URL}`
+            const url = `https://expenses-tracker-e1xik8myr-mulitt.vercel.app`
+            console.log('current url in env: ', url)
+            // return `https://${process.env.VERCEL_URL}`
+            return url
         }
     }
 
