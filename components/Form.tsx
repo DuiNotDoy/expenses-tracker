@@ -13,8 +13,8 @@ export default function Form({ categories }: Props) {
         if (process.env.NODE_ENV == 'development') {
             return 'http://localhost:3000'
         } else {
-            console.log('current url in env: ', process.env.NEXT_PUBLIC_VERCEL_URL)
-            return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+            console.log('current url in env: ', process.env.VERCEL_URL)
+            return `https://${process.env.VERCEL_URL}`
         }
     }
 
