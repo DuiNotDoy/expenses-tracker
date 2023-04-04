@@ -39,7 +39,7 @@ export default function Spendings({ spendings }: Props) {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const { req } = context
-    let link = ''
+    let link
 
     if (!req.headers.cookie) return {
         redirect: { destination: '/home' },
@@ -49,7 +49,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     if (process.env.NODE_ENV === 'development') {
         link = 'http://localhost:3000'
     } else {
-        link = 'https://dui-expenses-tracker.vercel.app'
+        link = process.env.VERCEL_URL
     }
 
     const res = await fetch(`${link}/api/db/spendings`, {

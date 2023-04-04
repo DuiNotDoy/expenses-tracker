@@ -12,12 +12,12 @@ export default function Form({ categories }: Props) {
     async function submit() {
         if (!item.current || !value.current || !category.current) return
 
-        let link = ''
+        let link
 
         if (process.env.NODE_ENV == 'development') {
             link = 'http://localhost:3000'
         } else {
-            link = 'https://dui-expenses-tracker.vercel.app/'
+            link = process.env.VERCEL_URL
         }
 
         const response = await fetch(`${link}/api/db/insert`, {
