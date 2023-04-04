@@ -12,7 +12,15 @@ export default function Form({ categories }: Props) {
     async function submit() {
         if (!item.current || !value.current || !category.current) return
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_VERCEL_URL}/api/db/insert`, {
+        let link = ''
+
+        if (process.env.NODE_ENV == 'development') {
+            link = 'http://localhost:3000'
+        } else {
+            link = 'https://dui-expenses-tracker.vercel.app/'
+        }
+
+        const response = await fetch(`${link}/api/db/insert`, {
             method: 'POST',
             credentials: 'same-origin',
             headers: {

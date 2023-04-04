@@ -33,7 +33,15 @@ function Header() {
 
 export const getServerSideProps: GetServerSideProps = async () => {
     console.log(process.env)
-    const res = await fetch(`${process.env.NEXT_PUBLIC_VERCEL_URL}/api/db/category`)
+    let link = ''
+
+    if (process.env.NODE_ENV === 'development') {
+        link = 'http://localhost:3000'
+    } else {
+        link = 'https://dui-expenses-tracker.vercel.app/'
+    }
+
+    const res = await fetch(`${link}/api/db/category`)
     const categories = await res.json()
 
     return {
