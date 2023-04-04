@@ -9,16 +9,19 @@ export default function Form({ categories }: Props) {
     const value = useRef<HTMLInputElement>(null)
     const category = useRef<HTMLSelectElement>(null)
 
+    function getBaseURL() {
+        if (process.env.NODE_ENV == 'development') {
+            return 'http://localhost:3000'
+        } else {
+            return `https://${process.env.VERCEL_URL}`
+        }
+    }
+
     async function submit() {
         if (!item.current || !value.current || !category.current) return
 
-        let link
-
-        if (process.env.NODE_ENV == 'development') {
-            link = 'http://localhost:3000'
-        } else {
-            link = process.env.NEXT_PUBLIC_VERCEL_URL
-        }
+        const link = getBaseURL()
+        console.log('base url: ', link)
 
         const response = await fetch(`${link}/api/db/insert`, {
             method: 'POST',
@@ -32,7 +35,7 @@ export default function Form({ categories }: Props) {
                 category: category.current.value,
             })
         })
-        console.log(response.json())
+        console.log('response: ', response.json())
     }
 
     return (
