@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 import jwtDecode from "jwt-decode";
+import { error } from "console";
 
 type JWT = {
     azp: string
@@ -13,13 +14,15 @@ type JWT = {
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    if (!req.cookies.__session) return res.status(401).json({ message: 'unauthorized' })
+
+    const spendings = await getSpendings(req.cookies.__session)
+    res.status(200).json(spendings)
+}
+
+export async function getSpendings(session: string) {
     const prisma = new PrismaClient()
-    const cookies = req.cookies
-    console.log({ cookies })
-
-    if (!cookies.__session) return res.status(401).json({ message: 'unauthorized' })
-
-    const decoded: JWT = jwtDecode(cookies.__session)
+    const decoded: JWT = jwtDecode(session)
 
     const spendings = await prisma.spending.findMany({
         where: {
@@ -27,5 +30,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
     })
 
-    res.status(200).json(spendings)
+    return spendings
 }

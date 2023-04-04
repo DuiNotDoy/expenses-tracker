@@ -1,5 +1,6 @@
 import type { GetServerSideProps } from 'next'
 import Link from 'next/link'
+import { getSpendings } from './api/db/spendings'
 
 type Props = {
     spendings: Spending[]
@@ -38,27 +39,14 @@ export default function Spendings({ spendings }: Props) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const { req } = context
-    let link
+    const cookies = context.req.cookies
 
-    if (!req.headers.cookie) return {
+    if (!cookies || !cookies.__session) return {
         redirect: { destination: '/home' },
         props: {}
     }
 
-    if (process.env.NODE_ENV === 'development') {
-        link = 'http://localhost:3000'
-    } else {
-        link = process.env.VERCEL_URL
-    }
-
-    const res = await fetch(`${link}/api/db/spendings`, {
-        credentials: 'include',
-        headers: {
-            Cookie: req.headers.cookie
-        }
-    })
-    const spendings = await res.json()
+    const spendings = await getSpendings(cookies.__session)
 
     return {
         props: {

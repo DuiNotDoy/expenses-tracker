@@ -2,6 +2,7 @@ import { UserButton } from '@clerk/nextjs'
 import Link from 'next/link'
 import Form from '../../components/Form'
 import type { GetServerSideProps } from 'next'
+import { getCategories } from './api/db/category'
 
 type Props = {
     categories: string[]
@@ -32,17 +33,7 @@ function Header() {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-    console.log(process.env)
-    let link
-
-    if (process.env.NODE_ENV === 'development') {
-        link = 'http://localhost:3000'
-    } else {
-        link = process.env.VERCEL_URL
-    }
-
-    const res = await fetch(`${link}/api/db/category`)
-    const categories = await res.json()
+    const categories = getCategories()
 
     return {
         props: {

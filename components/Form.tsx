@@ -17,7 +17,7 @@ export default function Form({ categories }: Props) {
         if (process.env.NODE_ENV == 'development') {
             link = 'http://localhost:3000'
         } else {
-            link = process.env.VERCEL_URL
+            link = process.env.NEXT_PUBLIC_VERCEL_URL
         }
 
         const response = await fetch(`${link}/api/db/insert`, {
