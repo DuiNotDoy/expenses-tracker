@@ -26,7 +26,8 @@ export default function Form({ categories }: Props) {
         if (process.env.NODE_ENV === 'development') {
             return 'http://localhost:3000'
         } else {
-            return `https://dui-expenses-tracker.vercel.app`
+            // return `https://dui-expenses-tracker.vercel.app`
+            return `https://${process.env.VERCEL_URL}`
         }
     }
 
