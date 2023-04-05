@@ -53,13 +53,20 @@ export default function Form({ categories }: Props) {
             })
         })
 
-        if (!response.ok) return { data: null, success: false }
-        return { data: response.json(), success: true }
-    }
-
-    type InsertResponse = {
-        data: any
-        success: boolean
+        if (response.ok) {
+            notifications.show({
+                title: 'Success',
+                message: 'Item successfully saved.',
+                color: 'teal'
+            })
+        } else {
+            notifications.show({
+                title: 'Fail',
+                message: 'Could not save item at the moment.',
+                color: 'red'
+            })
+        }
+        setSubmitting(false)
     }
 
     return (
@@ -67,13 +74,7 @@ export default function Form({ categories }: Props) {
             <Paper p={'sm'} my={'md'}>
                 <form onSubmit={form.onSubmit(async (values) => {
                     setSubmitting(true)
-                    const result: InsertResponse = await insertSpending(values)
-                    if (result.success) {
-                        notifications.show({ title: 'Success', message: 'Item saved successfully',color: 'teal' })
-                    } else {
-                        notifications.show({ title: 'Fail', message: 'Error occurred while saving entry', color: 'red' })
-                    }
-                    setSubmitting(false)
+                    insertSpending(values)
                 })}>
                     <TextInput
                         label='Item Name'
