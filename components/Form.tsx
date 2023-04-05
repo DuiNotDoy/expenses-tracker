@@ -23,7 +23,7 @@ export default function Form({ categories }: Props) {
     })
 
     function getBaseURL() {
-        if (process.env.NODE_ENV === 'development') {
+        if (process.env.NODE_ENV !== 'production') {
             return 'http://localhost:3000'
         } else {
             // return `https://dui-expenses-tracker.vercel.app`
@@ -40,6 +40,8 @@ export default function Form({ categories }: Props) {
     async function insertSpending(data: SpendingData) {
         const link = getBaseURL()
         console.log('base url: ', link)
+        console.log('vercel: ', process.env.NODE_ENV)
+        console.log('vercel: ', process.env.VERCEL_URL)
 
         const response = await fetch(`${link}/api/db/insert`, {
             method: 'POST',
