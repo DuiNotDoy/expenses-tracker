@@ -1,8 +1,9 @@
 import '@/styles/globals.css'
-import { ClerkProvider, RedirectToSignIn, SignedIn, SignedOut } from '@clerk/nextjs'
+import { ClerkProvider, RedirectToSignIn, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
+import { AppShell, Container, Flex, Header } from '@mantine/core'
 
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -17,12 +18,14 @@ export default function App({ Component, pageProps }: AppProps) {
                 isPublicPath ? <Component {...pageProps} /> :
                     <>
                         <SignedIn>
-                            <div className="w-full mx-auto max-w-3xl bg-blue-300">
-                                <Head>
-                                    <title>Expenses Tracker</title>
-                                </Head>
-                                <Component {...pageProps} />
-                            </div>
+                            <Container size={'sm'} px={0} style={{ borderInline: '1px solid' }}>
+                                <AppShell padding={0} header={<MyHeader />}>
+                                    <Head>
+                                        <title>Expenses Tracker</title>
+                                    </Head>
+                                    <Component {...pageProps} />
+                                </AppShell>
+                            </Container>
                         </SignedIn>
                         <SignedOut>
                             <RedirectToSignIn />
@@ -30,5 +33,14 @@ export default function App({ Component, pageProps }: AppProps) {
                     </>
             }
         </ClerkProvider>
+    )
+}
+
+
+function MyHeader() {
+    return (
+        <Flex justify={'end'} p={4} style={{borderBottom: '1px solid'}}>
+            <UserButton />
+        </Flex>
     )
 }

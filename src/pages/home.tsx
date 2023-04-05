@@ -1,8 +1,8 @@
-import { UserButton } from '@clerk/nextjs'
 import Link from 'next/link'
 import Form from '../../components/Form'
 import type { GetServerSideProps } from 'next'
 import { getCategories } from './api/db/category'
+import { Title } from '@mantine/core'
 
 type Props = {
     categories: string[]
@@ -11,26 +11,14 @@ type Props = {
 export default function Home({ categories }: Props) {
 
     return (
-        <div>
-            <Header />
-            <main className='bg-gray-300 text-center h-screen'>
-                <h1>Home</h1>
-                <Link href={'/spendings'} className='bg-red-300 p-1 rounded-md'>See Spendings</Link>
-                <Form categories={categories} />
-            </main>
-        </div>
+        <>
+            <Title order={2} align='center'>Home</Title>
+            <Link href={'/spendings'} className='bg-red-300 p-1 rounded-md'>See Spendings</Link>
+            <Form categories={categories} />
+        </>
     )
 }
 
-function Header() {
-    return (
-        <header className="p-2">
-            <div className="flex justify-end">
-                <UserButton />
-            </div>
-        </header>
-    )
-}
 
 export const getServerSideProps: GetServerSideProps = async () => {
     const categories = getCategories()

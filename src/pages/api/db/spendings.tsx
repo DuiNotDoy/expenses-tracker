@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 import jwtDecode from "jwt-decode";
-import { error } from "console";
 
 type JWT = {
     azp: string
@@ -30,5 +29,5 @@ export async function getSpendings(session: string) {
         }
     })
 
-    return spendings
+    return JSON.stringify(spendings)
 }

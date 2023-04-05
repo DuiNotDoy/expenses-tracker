@@ -1,6 +1,7 @@
 import type { GetServerSideProps } from 'next'
 import Link from 'next/link'
 import { getSpendings } from './api/db/spendings'
+import { Grid, Paper, Text, Title } from '@mantine/core'
 
 type Props = {
     spendings: Spending[]
@@ -17,24 +18,26 @@ type Spending = {
 export default function Spendings({ spendings }: Props) {
 
     return (
-        <div className='h-screen'>
-            <h1 className='text-center'>Spendings</h1>
+        <>
+            <Title order={2} align='center'>Spendings</Title>
             <Link href={'/home'} className='bg-red-300 p-1 rounded-md'>Back to Home</Link>
-            <div className='flex gap-4 justify-center bg-slate-400'>
+            <Grid p={'md'} justify='center'>
                 {
                     spendings.length > 0 ?
                         spendings.map(spending => (
-                            <div key={spending.id} className='bg-slate-200 p-2 rounded-md shadow-md'>
-                                <p>created: {new Date(spending.createdAt).toLocaleDateString()}</p>
-                                <p>item: {spending.item}</p>
-                                <p>value: {spending.value}</p>
-                                <p>category: {spending.category}</p>
-                            </div>
+                            <Grid.Col xs={6} key={spending.id}>
+                                <Paper withBorder p={'xs'} shadow='sm'>
+                                    <p>created: {new Date(spending.createdAt).toLocaleDateString()}</p>
+                                    <p>item: {spending.item}</p>
+                                    <p>value: {spending.value}</p>
+                                    <p>category: {spending.category}</p>
+                                </Paper>
+                            </Grid.Col>
                         ))
-                        : <div>no record</div>
+                        : <Text mt={'xs'}>No Record</Text>
                 }
-            </div>
-        </div>
+            </Grid>
+        </>
     )
 }
 
@@ -46,7 +49,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         props: {}
     }
 
-    const spendings = await getSpendings(cookies.__session)
+    const res = await getSpendings(cookies.__session)
+    const spendings = JSON.parse(res)
 
     return {
         props: {

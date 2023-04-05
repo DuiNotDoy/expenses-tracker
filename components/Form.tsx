@@ -1,30 +1,40 @@
-import getEnvironment from "@/pages/api/env"
-import { useRef } from "react"
+import { Button, Center, NativeSelect, NumberInput, Paper, TextInput } from "@mantine/core"
+import { isNotEmpty, useForm } from "@mantine/form"
 
 type Props = {
     categories: string[]
 }
 
 export default function Form({ categories }: Props) {
-    const item = useRef<HTMLInputElement>(null)
-    const value = useRef<HTMLInputElement>(null)
-    const category = useRef<HTMLSelectElement>(null)
+    const form = useForm({
+        initialValues: {
+            item: '',
+            value: 0,
+            category: categories[0],
+        },
+        validate: {
+            item: isNotEmpty('Please enter an item'),
+            value: (value) => value < 1 ? 'Enter a valid item value' : null,
+            category: (value) => !categories.includes(value) ? 'Select valid category' : null
+        }
+    })
 
     function getBaseURL() {
         if (process.env.NODE_ENV === 'development') {
             return 'http://localhost:3000'
         } else {
-            const url = `https://dui-expenses-tracker.vercel.app`
-            // return `https://${process.env.VERCEL_URL}`
-            return url
+            return `https://dui-expenses-tracker.vercel.app`
         }
     }
 
-    async function submit() {
-        if (!item.current || !value.current || !category.current) return
+    type SpendingData = {
+        item: string
+        value: number
+        category: string
+    }
 
+    async function insertSpending(data: SpendingData) {
         const link = getBaseURL()
-        console.log('base url: ', link)
 
         const response = await fetch(`${link}/api/db/insert`, {
             method: 'POST',
@@ -34,40 +44,43 @@ export default function Form({ categories }: Props) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                item: item.current.value,
-                value: value.current.value,
-                category: category.current.value,
+                item: data.item,
+                value: data.value,
+                category: data.category,
             })
         })
         console.log('response: ', response.json())
     }
 
     return (
-        <div className='bg-slate-400 outline outline-1 max-w-md mx-auto rounded-md text-left p-2 my-2'>
-            <div className='my-2'>
-                <label htmlFor='item'>Item Name:</label>
-                <input ref={item} type='text' name='item' placeholder='Item name' />
-            </div>
-            <div className='my-2'>
-                <label htmlFor='value'>Item Value:</label>
-                <input ref={value} type='text' name='value' placeholder='Php 999' />
-            </div>
-            <div className='my-2'>
-                <label htmlFor='category'>Category</label>
-                <select ref={category} name='category'>
-                    {
-                        categories.map(category => (
-                            <option key={category}>
-                                {category}
-                            </option>
-                        ))
-                    }
-                </select>
-            </div>
-            <div>
-                <button className='bg-blue-400 p-1 rounded-md' onClick={submit}>Submit</button>
-            </div>
-        </div>
+        <Center >
+            <Paper p={'sm'} my={'md'}>
+                <form onSubmit={form.onSubmit((values) => {
+                    insertSpending(values)
+                })}>
+                    <TextInput
+                        label='Item Name'
+                        placeholder="item"
+                        withAsterisk
+                        {...form.getInputProps('item')} />
+                    <NumberInput
+                        label='Item Value'
+                        placeholder="value"
+                        withAsterisk
+                        {...form.getInputProps('value')} />
+                    <NativeSelect
+                        label='Item Category'
+                        withAsterisk
+                        description='Select the category of the item'
+                        data={categories}
+                        {...form.getInputProps('category')}
+                    />
+                    <Button type="submit" mt={'xs'} style={{ backgroundColor: 'blue', }}>
+                        Submit
+                    </Button>
+                </form>
+            </Paper>
+        </Center>
     )
 }
 
