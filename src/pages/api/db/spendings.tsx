@@ -26,6 +26,9 @@ export async function getSpendings(session: string) {
     const spendings = await prisma.spending.findMany({
         where: {
             userId: decoded.sub
+        },
+        orderBy: {
+            createdAt: 'desc'
         }
     })
 
