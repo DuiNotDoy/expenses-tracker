@@ -1,7 +1,8 @@
 import type { GetServerSideProps } from 'next'
 import Link from 'next/link'
 import { getSpendings } from './api/db/spendings'
-import { Grid, Paper, Text, Title } from '@mantine/core'
+import { Grid, LoadingOverlay, Paper, Text, Title } from '@mantine/core'
+import { useState } from 'react'
 
 type Props = {
     spendings: Spending[]
@@ -16,11 +17,16 @@ type Spending = {
 }
 
 export default function Spendings({ spendings }: Props) {
+    const [loading, setLoading] = useState(false)
 
     return (
         <>
+            <LoadingOverlay visible={loading} />
             <Title order={2} align='center'>Spendings</Title>
-            <Link href={'/home'} className='bg-red-300 p-1 rounded-md'>Back to Home</Link>
+            <Link
+                href={'/home'}
+                className='bg-red-300 p-1 rounded-md'
+                onClick={() => setLoading(true)}>Back to Home</Link>
             <Grid p={'md'} justify='center'>
                 {
                     spendings.length > 0 ?
