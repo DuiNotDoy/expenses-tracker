@@ -1,11 +1,14 @@
-import { Button, Center, NativeSelect, NumberInput, Paper, TextInput } from "@mantine/core"
+import { Button, Center, LoadingOverlay, NativeSelect, NumberInput, Paper, TextInput } from "@mantine/core"
 import { isNotEmpty, useForm } from "@mantine/form"
+import { notifications } from "@mantine/notifications"
+import { useState } from "react"
 
 type Props = {
     categories: string[]
 }
 
 export default function Form({ categories }: Props) {
+    const [submitting, setSubmitting] = useState(false)
     const form = useForm({
         initialValues: {
             item: '',
@@ -49,14 +52,28 @@ export default function Form({ categories }: Props) {
                 category: data.category,
             })
         })
-        console.log('response: ', response.json())
+
+        if (!response.ok) return { data: null, success: false }
+        return { data: response.json(), success: true }
+    }
+
+    type InsertResponse = {
+        data: any
+        success: boolean
     }
 
     return (
         <Center >
             <Paper p={'sm'} my={'md'}>
-                <form onSubmit={form.onSubmit((values) => {
-                    insertSpending(values)
+                <form onSubmit={form.onSubmit(async (values) => {
+                    setSubmitting(true)
+                    const result: InsertResponse = await insertSpending(values)
+                    if (result.success) {
+                        notifications.show({ title: 'Success', message: 'Item saved successfully',color: 'teal' })
+                    } else {
+                        notifications.show({ title: 'Fail', message: 'Error occurred while saving entry', color: 'red' })
+                    }
+                    setSubmitting(false)
                 })}>
                     <TextInput
                         label='Item Name'
@@ -75,7 +92,12 @@ export default function Form({ categories }: Props) {
                         data={categories}
                         {...form.getInputProps('category')}
                     />
-                    <Button type="submit" mt={'xs'} style={{ backgroundColor: 'blue', }}>
+                    <Button
+                        type="submit"
+                        mt={'xs'}
+                        disabled={submitting}
+                        style={{ backgroundColor: 'blue', }}>
+                        <LoadingOverlay visible={submitting} loaderProps={{ size: 'sm' }} />
                         Submit
                     </Button>
                 </form>

@@ -3,7 +3,8 @@ import { ClerkProvider, RedirectToSignIn, SignedIn, SignedOut, UserButton } from
 import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
-import { AppShell, Container, Flex, Header } from '@mantine/core'
+import { AppShell, Container, Flex } from '@mantine/core'
+import { Notifications } from '@mantine/notifications'
 
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -14,6 +15,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
     return (
         <ClerkProvider {...pageProps}>
+            <Notifications />
             {
                 isPublicPath ? <Component {...pageProps} /> :
                     <>
@@ -39,7 +41,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
 function MyHeader() {
     return (
-        <Flex justify={'end'} p={4} style={{borderBottom: '1px solid'}}>
+        <Flex justify={'end'} p={4} style={{ borderBottom: '1px solid' }}>
             <UserButton />
         </Flex>
     )
