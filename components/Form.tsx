@@ -39,6 +39,7 @@ export default function Form({ categories }: Props) {
 
     async function insertSpending(data: SpendingData) {
         const link = getBaseURL()
+        console.log('base url: ', link)
 
         const response = await fetch(`${link}/api/db/insert`, {
             method: 'POST',
