@@ -22,14 +22,6 @@ export default function Form({ categories }: Props) {
         }
     })
 
-    function getBaseURL() {
-        if (process.env.NODE_ENV !== 'production') {
-            return 'http://localhost:3000'
-        } else {
-            // return `https://dui-expenses-tracker.vercel.app`
-            return `https://${process.env.VERCEL_URL}`
-        }
-    }
 
     type SpendingData = {
         item: string
@@ -38,15 +30,11 @@ export default function Form({ categories }: Props) {
     }
 
     async function insertSpending(data: SpendingData) {
-        const link = getBaseURL()
-        console.log('base url: ', link)
-        console.log('vercel: ', process.env.NODE_ENV)
-        console.log('vercel: ', process.env.VERCEL_URL)
+        const link = window.location.origin
 
         const response = await fetch(`${link}/api/db/insert`, {
             method: 'POST',
             credentials: 'include',
-            mode: 'same-origin',
             headers: {
                 'Content-Type': 'application/json'
             },
