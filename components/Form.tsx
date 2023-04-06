@@ -12,11 +12,11 @@ export default function Form({ categories }: Props) {
     const form = useForm({
         initialValues: {
             item: '',
-            value: 0,
+            value: 1,
             category: categories[0],
         },
         validate: {
-            item: isNotEmpty('Please enter an item'),
+            item: isNotEmpty('Do not leave empty field'),
             value: (value) => value < 1 ? 'Enter a valid item value' : null,
             category: (value) => !categories.includes(value) ? 'Select valid category' : null
         }
@@ -62,22 +62,34 @@ export default function Form({ categories }: Props) {
     }
 
     return (
-        <Paper p={'sm'} my={'md'}>
+        <Paper p={'sm'}>
             <form onSubmit={form.onSubmit(async (values) => {
+                console.log({ values })
                 setSubmitting(true)
                 insertSpending(values)
             })}>
                 <TextInput
+                    mb={'sm'}
                     label='Item Name'
                     placeholder="item"
                     withAsterisk
                     {...form.getInputProps('item')} />
                 <NumberInput
+                    mb={'sm'}
                     label='Item Value'
+                    description='Do not include comma and other special characters'
                     placeholder="value"
                     withAsterisk
-                    {...form.getInputProps('value')} />
+                    hideControls
+                    {...form.getInputProps('value')}
+                    formatter={(value) =>
+                        !Number.isNaN(parseFloat(value))
+                            ? `₱ ${value}`.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
+                            : '₱ '
+                    }
+                />
                 <NativeSelect
+                    mb={'sm'}
                     label='Item Category'
                     withAsterisk
                     description='Select the category of the item'

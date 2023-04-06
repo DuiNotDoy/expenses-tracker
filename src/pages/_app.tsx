@@ -40,7 +40,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
 function MyHeader() {
     return (
-        <Flex justify={'end'} p={4} mb={'sm'} className='bg-white shadow-lg'>
+        <Flex justify={'end'} px={'sm'} py={4} mb={'sm'} className='bg-white shadow-lg'>
             <UserButton />
         </Flex>
     )

@@ -18,7 +18,7 @@ export default function Home({ categories }: Props) {
         <>
             <LoadingOverlay visible={loading} />
             <Title order={2} align='center'>Home</Title>
-            <Flex justify={'space-between'}>
+            <Flex px={'sm'} justify={'space-between'}>
                 <Link
                     href={'/spendings'}
                     className='bg-red-400 p-1 rounded-md'
@@ -26,7 +26,7 @@ export default function Home({ categories }: Props) {
                 >
                     See Spendings
                 </Link>
-                <Button onClick={open} className='bg-blue-500'>Open Modal</Button>
+                <Button onClick={open} className='bg-blue-500'>New Spending</Button>
             </Flex>
             <Modal opened={opened} onClose={close} title='Add new spending'>
                 <Form categories={categories} />
