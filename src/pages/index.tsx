@@ -1,4 +1,4 @@
-import { Anchor, Button, Center, Container, Flex, Title } from "@mantine/core";
+import { Button, Container, Flex, Title } from "@mantine/core";
 import Link from "next/link";
 
 export default function Home() {
@@ -8,7 +8,7 @@ export default function Home() {
             <Title align="center"> Landing Page </Title>
             <Flex justify={'center'} mt={'sm'}>
                 <Link href={'/home'}>
-                    <Button style={{ backgroundColor: 'blue' }}>Get started</Button>
+                    <Button className="bg-blue-500">Get started</Button>
                 </Link>
             </Flex>
         </Container>

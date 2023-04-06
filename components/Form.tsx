@@ -1,4 +1,4 @@
-import { Button, Center, LoadingOverlay, NativeSelect, NumberInput, Paper, TextInput } from "@mantine/core"
+import { Button, NativeSelect, NumberInput, Paper, TextInput } from "@mantine/core"
 import { isNotEmpty, useForm } from "@mantine/form"
 import { notifications } from "@mantine/notifications"
 import { useState } from "react"
@@ -88,8 +88,11 @@ export default function Form({ categories }: Props) {
                     type="submit"
                     mt={'xs'}
                     disabled={submitting}
-                    style={{ backgroundColor: 'blue', }}>
-                    <LoadingOverlay visible={submitting} loaderProps={{ size: 'sm' }} />
+                    className="bg-blue-500"
+                    loading={submitting}
+                    loaderPosition="center"
+                    sx={{ '&[data-loading]': { backgroundColor: 'red' } }}
+                >
                     Submit
                 </Button>
             </form>

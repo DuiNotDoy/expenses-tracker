@@ -34,3 +34,5 @@ export async function getSpendings(session: string) {
 
     return JSON.stringify(spendings)
 }
+
+

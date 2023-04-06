@@ -6,7 +6,6 @@ import Head from 'next/head'
 import { AppShell, Container, Flex } from '@mantine/core'
 import { Notifications } from '@mantine/notifications'
 
-
 export default function App({ Component, pageProps }: AppProps) {
     const { pathname } = useRouter()
     const publicPages: string[] = ['/']
@@ -20,14 +19,14 @@ export default function App({ Component, pageProps }: AppProps) {
                 isPublicPath ? <Component {...pageProps} /> :
                     <>
                         <SignedIn>
-                            <Container size={'sm'} px={0} style={{ borderInline: '1px solid' }}>
-                                <AppShell padding={0} header={<MyHeader />}>
+                            <AppShell padding={0} header={<MyHeader />}>
+                                <Container size={'sm'} px={0} >
                                     <Head>
                                         <title>Expenses Tracker</title>
                                     </Head>
                                     <Component {...pageProps} />
-                                </AppShell>
-                            </Container>
+                                </Container>
+                            </AppShell>
                         </SignedIn>
                         <SignedOut>
                             <RedirectToSignIn />
@@ -41,7 +40,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
 function MyHeader() {
     return (
-        <Flex justify={'end'} p={4} style={{ borderBottom: '1px solid' }}>
+        <Flex justify={'end'} p={4} mb={'sm'} className='bg-white shadow-lg'>
             <UserButton />
         </Flex>
     )
