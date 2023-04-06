@@ -62,40 +62,38 @@ export default function Form({ categories }: Props) {
     }
 
     return (
-        <Center >
-            <Paper p={'sm'} my={'md'}>
-                <form onSubmit={form.onSubmit(async (values) => {
-                    setSubmitting(true)
-                    insertSpending(values)
-                })}>
-                    <TextInput
-                        label='Item Name'
-                        placeholder="item"
-                        withAsterisk
-                        {...form.getInputProps('item')} />
-                    <NumberInput
-                        label='Item Value'
-                        placeholder="value"
-                        withAsterisk
-                        {...form.getInputProps('value')} />
-                    <NativeSelect
-                        label='Item Category'
-                        withAsterisk
-                        description='Select the category of the item'
-                        data={categories}
-                        {...form.getInputProps('category')}
-                    />
-                    <Button
-                        type="submit"
-                        mt={'xs'}
-                        disabled={submitting}
-                        style={{ backgroundColor: 'blue', }}>
-                        <LoadingOverlay visible={submitting} loaderProps={{ size: 'sm' }} />
-                        Submit
-                    </Button>
-                </form>
-            </Paper>
-        </Center>
+        <Paper p={'sm'} my={'md'}>
+            <form onSubmit={form.onSubmit(async (values) => {
+                setSubmitting(true)
+                insertSpending(values)
+            })}>
+                <TextInput
+                    label='Item Name'
+                    placeholder="item"
+                    withAsterisk
+                    {...form.getInputProps('item')} />
+                <NumberInput
+                    label='Item Value'
+                    placeholder="value"
+                    withAsterisk
+                    {...form.getInputProps('value')} />
+                <NativeSelect
+                    label='Item Category'
+                    withAsterisk
+                    description='Select the category of the item'
+                    data={categories}
+                    {...form.getInputProps('category')}
+                />
+                <Button
+                    type="submit"
+                    mt={'xs'}
+                    disabled={submitting}
+                    style={{ backgroundColor: 'blue', }}>
+                    <LoadingOverlay visible={submitting} loaderProps={{ size: 'sm' }} />
+                    Submit
+                </Button>
+            </form>
+        </Paper>
     )
 }
 

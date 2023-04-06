@@ -2,8 +2,9 @@ import Link from 'next/link'
 import Form from '../../components/Form'
 import type { GetServerSideProps } from 'next'
 import { getCategories } from './api/db/category'
-import { LoadingOverlay, Title } from '@mantine/core'
+import { Button, LoadingOverlay, Modal, Title } from '@mantine/core'
 import { useState } from 'react'
+import { useDisclosure } from '@mantine/hooks'
 
 type Props = {
     categories: string[]
@@ -11,6 +12,7 @@ type Props = {
 
 export default function Home({ categories }: Props) {
     const [loading, setLoading] = useState(false)
+    const [opened, { open, close }] = useDisclosure(false)
 
     return (
         <>
@@ -20,7 +22,10 @@ export default function Home({ categories }: Props) {
                 href={'/spendings'}
                 className='bg-red-300 p-1 rounded-md'
                 onClick={() => setLoading(true)}>See Spendings</Link>
-            <Form categories={categories} />
+            <Button onClick={open} style={{ backgroundColor: 'blue' }}>Open Modal</Button>
+            <Modal opened={opened} onClose={close} title='Add new spending'>
+                <Form categories={categories} />
+            </Modal>
         </>
     )
 }
