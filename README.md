@@ -4,6 +4,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 Keep track of where you spend your money💰.
 
+Try the working demo [HERE](https://dui-expenses-tracker.vercel.app/).
+
 ## Getting Started
 
 First, run the development server:
@@ -16,3 +18,12 @@ yarn dev
 pnpm dev
 ```
 
+## Tech used
+
+    - Nextjs
+    - TailwindCSS
+    - Prisma
+    - Mantine
+    - Clerk
+    - Planetscale
+    - Vercel
