@@ -14,6 +14,9 @@ export default function App({ Component, pageProps }: AppProps) {
 
     return (
         <ClerkProvider {...pageProps}>
+            <Head>
+                <title>Expenses Tracker</title>
+            </Head>
             <Notifications />
             {
                 isPublicPath ? <Component {...pageProps} /> :
@@ -21,9 +24,6 @@ export default function App({ Component, pageProps }: AppProps) {
                         <SignedIn>
                             <AppShell padding={0} header={<MyHeader />}>
                                 <Container size={'sm'} px={0} >
-                                    <Head>
-                                        <title>Expenses Tracker</title>
-                                    </Head>
                                     <Component {...pageProps} />
                                 </Container>
                             </AppShell>
