@@ -24,9 +24,9 @@ export default function Home({ categories }: Props) {
                     className='bg-red-400 p-1 rounded-md'
                     onClick={() => setLoading(true)}
                 >
-                    See Spendings
+                    View Expenses
                 </Link>
-                <Button onClick={open} className='bg-blue-500'>New Spending</Button>
+                <Button onClick={open} className='bg-blue-500'>Add Expense</Button>
             </Flex>
             <Modal opened={opened} onClose={close} title='Add new spending'>
                 <Form categories={categories} />

@@ -105,7 +105,7 @@ export default function Form({ categories }: Props) {
                     loaderPosition="center"
                     sx={{ '&[data-loading]': { backgroundColor: 'red' } }}
                 >
-                    Submit
+                    Save
                 </Button>
             </form>
         </Paper>
